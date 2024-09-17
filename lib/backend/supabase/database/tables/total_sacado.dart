@@ -19,7 +19,4 @@ class TotalSacadoRow extends SupabaseDataRow {
 
   int? get idUsuario => getField<int>('id_usuario');
   set idUsuario(int? value) => setField<int>('id_usuario', value);
-
-  String? get uuidAuthUser => getField<String>('uuid_auth_user');
-  set uuidAuthUser(String? value) => setField<String>('uuid_auth_user', value);
 }

@@ -8,7 +8,7 @@ import 'auth/supabase_auth/supabase_user_provider.dart';
 import 'auth/supabase_auth/auth_util.dart';
 
 import '/backend/supabase/supabase.dart';
-import 'flutter_flow/flutter_flow_theme.dart';
+import '/flutter_flow/flutter_flow_theme.dart';
 import 'flutter_flow/flutter_flow_util.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:floating_bottom_navigation_bar/floating_bottom_navigation_bar.dart';
@@ -68,7 +68,7 @@ class _MyAppState extends State<MyApp> {
     );
   }
 
-  void setThemeMode(ThemeMode mode) => setState(() {
+  void setThemeMode(ThemeMode mode) => safeSetState(() {
         _themeMode = mode;
         FlutterFlowTheme.saveThemeMode(mode);
       });
@@ -144,7 +144,7 @@ class _NavBarPageState extends State<NavBarPage> {
         ),
         child: FloatingNavbar(
           currentIndex: currentIndex,
-          onTap: (i) => setState(() {
+          onTap: (i) => safeSetState(() {
             _currentPage = null;
             _currentPageName = tabs.keys.toList()[i];
           }),

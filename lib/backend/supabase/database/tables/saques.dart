@@ -45,9 +45,9 @@ class SaquesRow extends SupabaseDataRow {
   int? get idUsuario => getField<int>('id_usuario');
   set idUsuario(int? value) => setField<int>('id_usuario', value);
 
-  double? get valorPagamento => getField<double>('valor_ pagamento');
+  double? get valorPagamento => getField<double>('valor_pagamento');
   set valorPagamento(double? value) =>
-      setField<double>('valor_ pagamento', value);
+      setField<double>('valor_pagamento', value);
 
   double? get valorSaque => getField<double>('valor_saque');
   set valorSaque(double? value) => setField<double>('valor_saque', value);

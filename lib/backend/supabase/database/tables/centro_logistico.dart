@@ -32,4 +32,25 @@ class CentroLogisticoRow extends SupabaseDataRow {
 
   List<String> get cidades => getListField<String>('cidades');
   set cidades(List<String>? value) => setListField<String>('cidades', value);
+
+  bool? get segunda => getField<bool>('segunda');
+  set segunda(bool? value) => setField<bool>('segunda', value);
+
+  bool? get terca => getField<bool>('terca');
+  set terca(bool? value) => setField<bool>('terca', value);
+
+  bool? get quarta => getField<bool>('quarta');
+  set quarta(bool? value) => setField<bool>('quarta', value);
+
+  bool? get quinta => getField<bool>('quinta');
+  set quinta(bool? value) => setField<bool>('quinta', value);
+
+  bool? get sexta => getField<bool>('sexta');
+  set sexta(bool? value) => setField<bool>('sexta', value);
+
+  bool? get sabado => getField<bool>('sabado');
+  set sabado(bool? value) => setField<bool>('sabado', value);
+
+  bool? get domingo => getField<bool>('domingo');
+  set domingo(bool? value) => setField<bool>('domingo', value);
 }

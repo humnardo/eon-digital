@@ -109,6 +109,21 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           builder: (context, params) => params.isEmpty
               ? const NavBarPage(initialPage: 'MenuPrincipal')
               : const MenuPrincipalWidget(),
+        ),
+        FFRoute(
+          name: 'Notificacoes',
+          path: '/notificacoes',
+          builder: (context, params) => const NotificacoesWidget(),
+        ),
+        FFRoute(
+          name: 'Perfil',
+          path: '/perfil',
+          builder: (context, params) => const PerfilWidget(),
+        ),
+        FFRoute(
+          name: 'historicoSaques',
+          path: '/historicoSaques',
+          builder: (context, params) => const HistoricoSaquesWidget(),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );

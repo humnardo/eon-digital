@@ -1,11 +1,11 @@
 import '/flutter_flow/flutter_flow_util.dart';
-import 'dashboard_widget.dart' show DashboardWidget;
+import 'perfil_widget.dart' show PerfilWidget;
 import 'package:flutter/material.dart';
 
-class DashboardModel extends FlutterFlowModel<DashboardWidget> {
+class PerfilModel extends FlutterFlowModel<PerfilWidget> {
   ///  Local state fields for this page.
 
-  String? mostrarSubmenu;
+  String? navegacao;
 
   @override
   void initState(BuildContext context) {}

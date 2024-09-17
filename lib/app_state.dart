@@ -170,6 +170,35 @@ class FFAppState extends ChangeNotifier {
     _idUsuariosTable = value;
     prefs.setInt('ff_idUsuariosTable', value);
   }
+
+  List<String> _dataGrafico = [];
+  List<String> get dataGrafico => _dataGrafico;
+  set dataGrafico(List<String> value) {
+    _dataGrafico = value;
+  }
+
+  void addToDataGrafico(String value) {
+    dataGrafico.add(value);
+  }
+
+  void removeFromDataGrafico(String value) {
+    dataGrafico.remove(value);
+  }
+
+  void removeAtIndexFromDataGrafico(int index) {
+    dataGrafico.removeAt(index);
+  }
+
+  void updateDataGraficoAtIndex(
+    int index,
+    String Function(String) updateFn,
+  ) {
+    dataGrafico[index] = updateFn(_dataGrafico[index]);
+  }
+
+  void insertAtIndexInDataGrafico(int index, String value) {
+    dataGrafico.insert(index, value);
+  }
 }
 
 void _safeInit(Function() initializeField) {

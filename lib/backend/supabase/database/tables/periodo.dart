@@ -19,4 +19,7 @@ class PeriodoRow extends SupabaseDataRow {
 
   String? get nomeStatus => getField<String>('nome_status');
   set nomeStatus(String? value) => setField<String>('nome_status', value);
+
+  bool? get ativo => getField<bool>('ativo');
+  set ativo(bool? value) => setField<bool>('ativo', value);
 }

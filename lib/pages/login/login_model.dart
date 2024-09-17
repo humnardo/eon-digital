@@ -1,5 +1,3 @@
-import '/backend/api_requests/api_calls.dart';
-import '/backend/supabase/supabase.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'login_widget.dart' show LoginWidget;
 import 'package:flutter/material.dart';
@@ -26,10 +24,6 @@ class LoginModel extends FlutterFlowModel<LoginWidget> {
   TextEditingController? passwordTextController;
   late bool passwordVisibility;
   String? Function(BuildContext, String?)? passwordTextControllerValidator;
-  // Stores action output result for [Backend Call - API (loginSupabase)] action in Button widget.
-  ApiCallResponse? apiResultvbg;
-  // Stores action output result for [Backend Call - Query Rows] action in Button widget.
-  List<UsuariosRow>? idUsuariosTable;
 
   @override
   void initState(BuildContext context) {
