@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 
 import '/backend/schema/structs/index.dart';
-
+import '/backend/schema/enums/enums.dart';
 import '/backend/supabase/supabase.dart';
 
 import '../../flutter_flow/place.dart';
@@ -74,6 +74,9 @@ String? serializeParam(
 
       case ParamType.DataStruct:
         data = param is BaseStruct ? param.serialize() : null;
+
+      case ParamType.Enum:
+        data = (param is Enum) ? param.serialize() : null;
 
       case ParamType.SupabaseRow:
         return json.encode((param as SupabaseDataRow).data);
@@ -155,6 +158,7 @@ enum ParamType {
   JSON,
 
   DataStruct,
+  Enum,
   SupabaseRow,
 }
 
@@ -228,8 +232,12 @@ dynamic deserializeParam<T>(
             return AfiliacoesRow(data);
           case PedidoMetodoPagamentoRow:
             return PedidoMetodoPagamentoRow(data);
+          case WebhookUrlRow:
+            return WebhookUrlRow(data);
           case PedidoCentroLogisticoRow:
             return PedidoCentroLogisticoRow(data);
+          case NotificationRow:
+            return NotificationRow(data);
           case EventoRow:
             return EventoRow(data);
           case ViewAfiliacoesProdutorAfiliadoRow:
@@ -262,6 +270,8 @@ dynamic deserializeParam<T>(
             return OfertasRow(data);
           case ResponsavelRow:
             return ResponsavelRow(data);
+          case WebhookEventosAdminRow:
+            return WebhookEventosAdminRow(data);
           case UsuariosRow:
             return UsuariosRow(data);
           case StatusAfiliacaoRow:
@@ -302,6 +312,8 @@ dynamic deserializeParam<T>(
             return WebhookConfigurationRow(data);
           case WebhookPedidosRow:
             return WebhookPedidosRow(data);
+          case WebhookConfigurationAdminRow:
+            return WebhookConfigurationAdminRow(data);
           case MetodoPagamentoCountRow:
             return MetodoPagamentoCountRow(data);
           case RankingProdutosMaisVendidosRow:
@@ -312,8 +324,6 @@ dynamic deserializeParam<T>(
             return StatusProdutoRow(data);
           case TaxasRow:
             return TaxasRow(data);
-          case ViewComissoesPorDataRow:
-            return ViewComissoesPorDataRow(data);
           case WebhookEventosRow:
             return WebhookEventosRow(data);
           case QtdProdutosDisponivelRow:
@@ -335,6 +345,9 @@ dynamic deserializeParam<T>(
       case ParamType.DataStruct:
         final data = json.decode(param) as Map<String, dynamic>? ?? {};
         return structBuilder != null ? structBuilder(data) : null;
+
+      case ParamType.Enum:
+        return deserializeEnum<T>(param);
 
       default:
         return null;

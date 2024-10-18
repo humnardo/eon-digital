@@ -1,3 +1,4 @@
+import '/custom_code/actions/index.dart' as actions;
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 
@@ -11,7 +12,6 @@ import '/backend/supabase/supabase.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import 'flutter_flow/flutter_flow_util.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:floating_bottom_navigation_bar/floating_bottom_navigation_bar.dart';
 import 'index.dart';
 
 void main() async {
@@ -25,6 +25,10 @@ void main() async {
 
   final appState = FFAppState(); // Initialize FFAppState
   await appState.initializePersistedState();
+
+  // Start final custom actions code
+  await actions.initializeMessaging();
+  // End final custom actions code
 
   runApp(ChangeNotifierProvider(
     create: (context) => appState,
@@ -128,21 +132,14 @@ class _NavBarPageState extends State<NavBarPage> {
     };
     final currentIndex = tabs.keys.toList().indexOf(_currentPageName);
 
-    final MediaQueryData queryData = MediaQuery.of(context);
-
     return Scaffold(
-      body: MediaQuery(
-          data: queryData
-              .removeViewInsets(removeBottom: true)
-              .removeViewPadding(removeBottom: true),
-          child: _currentPage ?? tabs[_currentPageName]!),
-      extendBody: true,
+      body: _currentPage ?? tabs[_currentPageName],
       bottomNavigationBar: Visibility(
         visible: responsiveVisibility(
           context: context,
           desktop: false,
         ),
-        child: FloatingNavbar(
+        child: BottomNavigationBar(
           currentIndex: currentIndex,
           onTap: (i) => safeSetState(() {
             _currentPage = null;
@@ -151,55 +148,33 @@ class _NavBarPageState extends State<NavBarPage> {
           backgroundColor: FlutterFlowTheme.of(context).tertiary,
           selectedItemColor: FlutterFlowTheme.of(context).primary,
           unselectedItemColor: FlutterFlowTheme.of(context).primaryText,
-          selectedBackgroundColor: const Color(0x00000000),
-          borderRadius: 8.0,
-          itemBorderRadius: 8.0,
-          margin: const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
-          padding: const EdgeInsetsDirectional.fromSTEB(0.0, 5.0, 0.0, 5.0),
-          width: MediaQuery.sizeOf(context).width * 1.0,
-          elevation: 3.0,
-          items: [
-            FloatingNavbarItem(
-              customWidget: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.dashboard_rounded,
-                    color: currentIndex == 0
-                        ? FlutterFlowTheme.of(context).primary
-                        : FlutterFlowTheme.of(context).primaryText,
-                    size: 30.0,
-                  ),
-                ],
+          showSelectedLabels: false,
+          showUnselectedLabels: false,
+          type: BottomNavigationBarType.fixed,
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.dashboard_rounded,
+                size: 30.0,
               ),
+              label: '',
+              tooltip: '',
             ),
-            FloatingNavbarItem(
-              customWidget: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    FontAwesomeIcons.wallet,
-                    color: currentIndex == 1
-                        ? FlutterFlowTheme.of(context).primary
-                        : FlutterFlowTheme.of(context).primaryText,
-                    size: 24.0,
-                  ),
-                ],
+            BottomNavigationBarItem(
+              icon: FaIcon(
+                FontAwesomeIcons.wallet,
+                size: 24.0,
               ),
+              label: '',
+              tooltip: '',
             ),
-            FloatingNavbarItem(
-              customWidget: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.menu_sharp,
-                    color: currentIndex == 2
-                        ? FlutterFlowTheme.of(context).primary
-                        : FlutterFlowTheme.of(context).primaryText,
-                    size: 24.0,
-                  ),
-                ],
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.menu_sharp,
+                size: 24.0,
               ),
+              label: '',
+              tooltip: '',
             )
           ],
         ),

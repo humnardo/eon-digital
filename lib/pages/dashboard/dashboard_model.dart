@@ -21,8 +21,6 @@ class DashboardModel extends FlutterFlowModel<DashboardWidget> {
   List<UsuariosRow>? idUserPublic;
   // Stores action output result for [Backend Call - API (TotalComissoes)] action in Dashboard widget.
   ApiCallResponse? apiResult96k;
-  // Stores action output result for [Backend Call - API (calcularcomissoespordata)] action in Dashboard widget.
-  ApiCallResponse? apiResultlca;
 
   @override
   void initState(BuildContext context) {}

@@ -2,8 +2,8 @@ import 'package:supabase_flutter/supabase_flutter.dart' hide Provider;
 
 export 'database/database.dart';
 
-const _kSupabaseUrl = 'https://gaommueaytxazkceoott.supabase.co';
-const _kSupabaseAnonKey =
+String _kSupabaseUrl = 'https://gaommueaytxazkceoott.supabase.co';
+String _kSupabaseAnonKey =
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imdhb21tdWVheXR4YXprY2Vvb3R0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjQyNTE2NzcsImV4cCI6MjAzOTgyNzY3N30.Er337-hHPp_z1DO-L2dqAsAKsdfvpjwPSXSSSlH12tA';
 
 class SupaFlow {

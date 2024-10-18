@@ -1,4 +1,5 @@
 import '/backend/supabase/supabase.dart';
+import '/components/info_saque_widget.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -24,6 +25,8 @@ class _HistoricoSaquesWidgetState extends State<HistoricoSaquesWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => HistoricoSaquesModel());
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override
@@ -102,201 +105,238 @@ class _HistoricoSaquesWidgetState extends State<HistoricoSaquesWidget> {
                                   ),
                         ),
                       ),
-                      Padding(
-                        padding:
-                            const EdgeInsetsDirectional.fromSTEB(0.0, 20.0, 0.0, 0.0),
-                        child: FutureBuilder<List<SaquesRow>>(
-                          future: SaquesTable().queryRows(
-                            queryFn: (q) => q
-                                .eq(
-                                  'id_usuario',
-                                  FFAppState().idUsuariosTable,
-                                )
-                                .order('id'),
-                          ),
-                          builder: (context, snapshot) {
-                            // Customize what your widget looks like when it's loading.
-                            if (!snapshot.hasData) {
-                              return Center(
-                                child: SizedBox(
-                                  width: 50.0,
-                                  height: 50.0,
-                                  child: CircularProgressIndicator(
-                                    valueColor: AlwaysStoppedAnimation<Color>(
-                                      FlutterFlowTheme.of(context).primary,
-                                    ),
-                                  ),
-                                ),
-                              );
-                            }
-                            List<SaquesRow> listViewSaquesRowList =
-                                snapshot.data!;
-
-                            return ListView.builder(
-                              padding: EdgeInsets.zero,
-                              shrinkWrap: true,
-                              scrollDirection: Axis.vertical,
-                              itemCount: listViewSaquesRowList.length,
-                              itemBuilder: (context, listViewIndex) {
-                                final listViewSaquesRow =
-                                    listViewSaquesRowList[listViewIndex];
-                                return Padding(
-                                  padding: const EdgeInsetsDirectional.fromSTEB(
-                                      0.0, 0.0, 0.0, 10.0),
-                                  child: Container(
-                                    width: 100.0,
-                                    decoration: BoxDecoration(
-                                      color:
-                                          FlutterFlowTheme.of(context).tertiary,
-                                      borderRadius: BorderRadius.circular(8.0),
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsetsDirectional.fromSTEB(
-                                          16.0, 10.0, 16.0, 10.0),
-                                      child: Row(
-                                        mainAxisSize: MainAxisSize.max,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Column(
-                                            mainAxisSize: MainAxisSize.max,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Padding(
-                                                padding: const EdgeInsetsDirectional
-                                                    .fromSTEB(
-                                                        0.0, 0.0, 0.0, 5.0),
-                                                child: RichText(
-                                                  textScaler:
-                                                      MediaQuery.of(context)
-                                                          .textScaler,
-                                                  text: TextSpan(
-                                                    children: [
-                                                      TextSpan(
-                                                        text: 'Data: ',
-                                                        style:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .bodyMedium
-                                                                .override(
-                                                                  fontFamily:
-                                                                      'Sora',
-                                                                  letterSpacing:
-                                                                      0.0,
-                                                                ),
-                                                      ),
-                                                      TextSpan(
-                                                        text: dateTimeFormat(
-                                                            "d/M/y",
-                                                            listViewSaquesRow
-                                                                .createDate!),
-                                                        style: const TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.w900,
-                                                        ),
-                                                      )
-                                                    ],
-                                                    style: FlutterFlowTheme.of(
-                                                            context)
-                                                        .bodyMedium
-                                                        .override(
-                                                          fontFamily: 'Sora',
-                                                          letterSpacing: 0.0,
-                                                        ),
-                                                  ),
-                                                ),
-                                              ),
-                                              Padding(
-                                                padding: const EdgeInsetsDirectional
-                                                    .fromSTEB(
-                                                        0.0, 0.0, 0.0, 5.0),
-                                                child: RichText(
-                                                  textScaler:
-                                                      MediaQuery.of(context)
-                                                          .textScaler,
-                                                  text: TextSpan(
-                                                    children: [
-                                                      TextSpan(
-                                                        text: 'Valor: ',
-                                                        style:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .bodyMedium
-                                                                .override(
-                                                                  fontFamily:
-                                                                      'Sora',
-                                                                  letterSpacing:
-                                                                      0.0,
-                                                                ),
-                                                      ),
-                                                      TextSpan(
-                                                        text: formatNumber(
-                                                          listViewSaquesRow
-                                                              .valorPagamento!,
-                                                          formatType:
-                                                              FormatType.custom,
-                                                          currency: 'R\$ ',
-                                                          format: '#,##0.00',
-                                                          locale: 'pt_BR',
-                                                        ),
-                                                        style: const TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.w900,
-                                                        ),
-                                                      )
-                                                    ],
-                                                    style: FlutterFlowTheme.of(
-                                                            context)
-                                                        .bodyMedium
-                                                        .override(
-                                                          fontFamily: 'Sora',
-                                                          letterSpacing: 0.0,
-                                                        ),
-                                                  ),
-                                                ),
-                                              ),
-                                              Text(
-                                                listViewSaquesRow.statusSaque ==
-                                                        1
-                                                    ? 'PENDENTE'
-                                                    : 'PAGO',
-                                                style: FlutterFlowTheme.of(
-                                                        context)
-                                                    .bodyMedium
-                                                    .override(
-                                                      fontFamily: 'Sora',
-                                                      color: listViewSaquesRow
-                                                                  .statusSaque ==
-                                                              1
-                                                          ? FlutterFlowTheme.of(
-                                                                  context)
-                                                              .warning
-                                                          : FlutterFlowTheme.of(
-                                                                  context)
-                                                              .success,
-                                                      letterSpacing: 0.0,
-                                                      fontWeight:
-                                                          FontWeight.w900,
-                                                    ),
-                                              ),
-                                            ],
-                                          ),
-                                          FaIcon(
-                                            FontAwesomeIcons.eye,
-                                            color: FlutterFlowTheme.of(context)
-                                                .primaryText,
-                                            size: 30.0,
-                                          ),
-                                        ],
+                      Column(
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          FutureBuilder<List<SaquesRow>>(
+                            future: SaquesTable().queryRows(
+                              queryFn: (q) => q
+                                  .eq(
+                                    'id_usuario',
+                                    FFAppState().idUsuariosTable,
+                                  )
+                                  .order('id'),
+                            ),
+                            builder: (context, snapshot) {
+                              // Customize what your widget looks like when it's loading.
+                              if (!snapshot.hasData) {
+                                return Center(
+                                  child: SizedBox(
+                                    width: 50.0,
+                                    height: 50.0,
+                                    child: CircularProgressIndicator(
+                                      valueColor: AlwaysStoppedAnimation<Color>(
+                                        FlutterFlowTheme.of(context).primary,
                                       ),
                                     ),
                                   ),
                                 );
-                              },
-                            );
-                          },
-                        ),
+                              }
+                              List<SaquesRow> listViewSaquesRowList =
+                                  snapshot.data!;
+
+                              return ListView.builder(
+                                padding: EdgeInsets.zero,
+                                shrinkWrap: true,
+                                scrollDirection: Axis.vertical,
+                                itemCount: listViewSaquesRowList.length,
+                                itemBuilder: (context, listViewIndex) {
+                                  final listViewSaquesRow =
+                                      listViewSaquesRowList[listViewIndex];
+                                  return Padding(
+                                    padding: const EdgeInsetsDirectional.fromSTEB(
+                                        0.0, 0.0, 0.0, 10.0),
+                                    child: Container(
+                                      width: MediaQuery.sizeOf(context).width *
+                                          1.0,
+                                      decoration: BoxDecoration(
+                                        color: FlutterFlowTheme.of(context)
+                                            .tertiary,
+                                        borderRadius:
+                                            BorderRadius.circular(8.0),
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsetsDirectional.fromSTEB(
+                                            16.0, 10.0, 16.0, 10.0),
+                                        child: Row(
+                                          mainAxisSize: MainAxisSize.max,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Column(
+                                              mainAxisSize: MainAxisSize.max,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Padding(
+                                                  padding: const EdgeInsetsDirectional
+                                                      .fromSTEB(
+                                                          0.0, 0.0, 0.0, 5.0),
+                                                  child: RichText(
+                                                    textScaler:
+                                                        MediaQuery.of(context)
+                                                            .textScaler,
+                                                    text: TextSpan(
+                                                      children: [
+                                                        TextSpan(
+                                                          text: 'Data: ',
+                                                          style: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .bodyMedium
+                                                              .override(
+                                                                fontFamily:
+                                                                    'Sora',
+                                                                letterSpacing:
+                                                                    0.0,
+                                                              ),
+                                                        ),
+                                                        TextSpan(
+                                                          text: dateTimeFormat(
+                                                              "d/M/y",
+                                                              listViewSaquesRow
+                                                                  .createDate!),
+                                                          style: const TextStyle(
+                                                            fontWeight:
+                                                                FontWeight.w900,
+                                                          ),
+                                                        )
+                                                      ],
+                                                      style: FlutterFlowTheme
+                                                              .of(context)
+                                                          .bodyMedium
+                                                          .override(
+                                                            fontFamily: 'Sora',
+                                                            letterSpacing: 0.0,
+                                                          ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding: const EdgeInsetsDirectional
+                                                      .fromSTEB(
+                                                          0.0, 0.0, 0.0, 5.0),
+                                                  child: RichText(
+                                                    textScaler:
+                                                        MediaQuery.of(context)
+                                                            .textScaler,
+                                                    text: TextSpan(
+                                                      children: [
+                                                        TextSpan(
+                                                          text: 'Valor: ',
+                                                          style: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .bodyMedium
+                                                              .override(
+                                                                fontFamily:
+                                                                    'Sora',
+                                                                letterSpacing:
+                                                                    0.0,
+                                                              ),
+                                                        ),
+                                                        TextSpan(
+                                                          text: formatNumber(
+                                                            listViewSaquesRow
+                                                                .valorPagamento!,
+                                                            formatType:
+                                                                FormatType
+                                                                    .custom,
+                                                            currency: 'R\$ ',
+                                                            format: '#,##0.00',
+                                                            locale: 'pt_BR',
+                                                          ),
+                                                          style: const TextStyle(
+                                                            fontWeight:
+                                                                FontWeight.w900,
+                                                          ),
+                                                        )
+                                                      ],
+                                                      style: FlutterFlowTheme
+                                                              .of(context)
+                                                          .bodyMedium
+                                                          .override(
+                                                            fontFamily: 'Sora',
+                                                            letterSpacing: 0.0,
+                                                          ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                Text(
+                                                  listViewSaquesRow
+                                                              .statusSaque ==
+                                                          1
+                                                      ? 'PENDENTE'
+                                                      : 'PAGO',
+                                                  style:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .bodyMedium
+                                                          .override(
+                                                            fontFamily: 'Sora',
+                                                            color: listViewSaquesRow.statusSaque ==
+                                                                    1
+                                                                ? FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .warning
+                                                                : FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .success,
+                                                            letterSpacing: 0.0,
+                                                            fontWeight:
+                                                                FontWeight.w900,
+                                                          ),
+                                                ),
+                                              ],
+                                            ),
+                                            InkWell(
+                                              splashColor: Colors.transparent,
+                                              focusColor: Colors.transparent,
+                                              hoverColor: Colors.transparent,
+                                              highlightColor:
+                                                  Colors.transparent,
+                                              onTap: () async {
+                                                await showModalBottomSheet(
+                                                  isScrollControlled: true,
+                                                  backgroundColor:
+                                                      Colors.transparent,
+                                                  enableDrag: false,
+                                                  context: context,
+                                                  builder: (context) {
+                                                    return GestureDetector(
+                                                      onTap: () =>
+                                                          FocusScope.of(context)
+                                                              .unfocus(),
+                                                      child: Padding(
+                                                        padding: MediaQuery
+                                                            .viewInsetsOf(
+                                                                context),
+                                                        child: InfoSaqueWidget(
+                                                          id: listViewSaquesRow
+                                                              .id,
+                                                        ),
+                                                      ),
+                                                    );
+                                                  },
+                                                ).then((value) =>
+                                                    safeSetState(() {}));
+                                              },
+                                              child: FaIcon(
+                                                FontAwesomeIcons.eye,
+                                                color:
+                                                    FlutterFlowTheme.of(context)
+                                                        .primaryText,
+                                                size: 30.0,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                },
+                              );
+                            },
+                          ),
+                        ],
                       ),
                     ],
                   ),

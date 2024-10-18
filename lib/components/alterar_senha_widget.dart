@@ -1,28 +1,27 @@
 import '/auth/supabase_auth/auth_util.dart';
 import '/backend/supabase/supabase.dart';
 import '/flutter_flow/flutter_flow_animations.dart';
-import '/flutter_flow/flutter_flow_drop_down.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
-import '/flutter_flow/form_field_controller.dart';
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'dados_banco_model.dart';
-export 'dados_banco_model.dart';
+import 'alterar_senha_model.dart';
+export 'alterar_senha_model.dart';
 
-class DadosBancoWidget extends StatefulWidget {
-  const DadosBancoWidget({super.key});
+class AlterarSenhaWidget extends StatefulWidget {
+  const AlterarSenhaWidget({super.key});
 
   @override
-  State<DadosBancoWidget> createState() => _DadosBancoWidgetState();
+  State<AlterarSenhaWidget> createState() => _AlterarSenhaWidgetState();
 }
 
-class _DadosBancoWidgetState extends State<DadosBancoWidget>
+class _AlterarSenhaWidgetState extends State<AlterarSenhaWidget>
     with TickerProviderStateMixin {
-  late DadosBancoModel _model;
+  late AlterarSenhaModel _model;
 
   final animationsMap = <String, AnimationInfo>{};
 
@@ -35,15 +34,16 @@ class _DadosBancoWidgetState extends State<DadosBancoWidget>
   @override
   void initState() {
     super.initState();
-    _model = createModel(context, () => DadosBancoModel());
+    _model = createModel(context, () => AlterarSenhaModel());
 
-    _model.bancoFocusNode ??= FocusNode();
+    _model.senhaAtualTextController ??= TextEditingController();
+    _model.senhaAtualFocusNode ??= FocusNode();
 
-    _model.agenciaFocusNode ??= FocusNode();
+    _model.novaSenhaTextController ??= TextEditingController();
+    _model.novaSenhaFocusNode ??= FocusNode();
 
-    _model.contaFocusNode ??= FocusNode();
-
-    _model.chavePIXFocusNode ??= FocusNode();
+    _model.confirmarSenhaTextController ??= TextEditingController();
+    _model.confirmarSenhaFocusNode ??= FocusNode();
 
     animationsMap.addAll({
       'containerOnPageLoadAnimation1': AnimationInfo(
@@ -197,7 +197,7 @@ class _DadosBancoWidgetState extends State<DadosBancoWidget>
                                                     .fromSTEB(
                                                         0.0, 0.0, 0.0, 4.0),
                                                 child: Text(
-                                                  'Dados bancários',
+                                                  'Alterar senha',
                                                   style: FlutterFlowTheme.of(
                                                           context)
                                                       .headlineMedium
@@ -212,7 +212,7 @@ class _DadosBancoWidgetState extends State<DadosBancoWidget>
                                                     .fromSTEB(
                                                         0.0, 0.0, 0.0, 8.0),
                                                 child: Text(
-                                                  'Os valores sacados serão enviados para essa conta',
+                                                  'Certifique-se de colocar uma senha que você não esqueça.',
                                                   style: FlutterFlowTheme.of(
                                                           context)
                                                       .labelMedium
@@ -247,7 +247,7 @@ class _DadosBancoWidgetState extends State<DadosBancoWidget>
                                     padding: const EdgeInsetsDirectional.fromSTEB(
                                         0.0, 0.0, 0.0, 8.0),
                                     child: Text(
-                                      'Seu Banco:',
+                                      'Senha atual:',
                                       style: FlutterFlowTheme.of(context)
                                           .labelMedium
                                           .override(
@@ -265,14 +265,8 @@ class _DadosBancoWidgetState extends State<DadosBancoWidget>
                                       width: double.infinity,
                                       child: TextFormField(
                                         controller:
-                                            _model.bancoTextController ??=
-                                                TextEditingController(
-                                          text: valueOrDefault<String>(
-                                            columnUsuariosRow?.banco,
-                                            '-',
-                                          ),
-                                        ),
-                                        focusNode: _model.bancoFocusNode,
+                                            _model.senhaAtualTextController,
+                                        focusNode: _model.senhaAtualFocusNode,
                                         autofocus: false,
                                         obscureText: false,
                                         decoration: InputDecoration(
@@ -284,7 +278,7 @@ class _DadosBancoWidgetState extends State<DadosBancoWidget>
                                                     fontFamily: 'Sora',
                                                     letterSpacing: 0.0,
                                                   ),
-                                          hintText: 'TextField',
+                                          hintText: 'Digite sua senha atual',
                                           hintStyle:
                                               FlutterFlowTheme.of(context)
                                                   .labelMedium
@@ -344,7 +338,7 @@ class _DadosBancoWidgetState extends State<DadosBancoWidget>
                                             FlutterFlowTheme.of(context)
                                                 .primaryText,
                                         validator: _model
-                                            .bancoTextControllerValidator
+                                            .senhaAtualTextControllerValidator
                                             .asValidator(context),
                                       ),
                                     ),
@@ -353,7 +347,7 @@ class _DadosBancoWidgetState extends State<DadosBancoWidget>
                                     padding: const EdgeInsetsDirectional.fromSTEB(
                                         0.0, 0.0, 0.0, 8.0),
                                     child: Text(
-                                      'Seu Agência:',
+                                      'Nova senha:',
                                       style: FlutterFlowTheme.of(context)
                                           .labelMedium
                                           .override(
@@ -371,14 +365,8 @@ class _DadosBancoWidgetState extends State<DadosBancoWidget>
                                       width: double.infinity,
                                       child: TextFormField(
                                         controller:
-                                            _model.agenciaTextController ??=
-                                                TextEditingController(
-                                          text: valueOrDefault<String>(
-                                            columnUsuariosRow?.agencia,
-                                            '-',
-                                          ),
-                                        ),
-                                        focusNode: _model.agenciaFocusNode,
+                                            _model.novaSenhaTextController,
+                                        focusNode: _model.novaSenhaFocusNode,
                                         autofocus: false,
                                         obscureText: false,
                                         decoration: InputDecoration(
@@ -390,114 +378,7 @@ class _DadosBancoWidgetState extends State<DadosBancoWidget>
                                                     fontFamily: 'Sora',
                                                     letterSpacing: 0.0,
                                                   ),
-                                          hintText: 'TextField',
-                                          hintStyle:
-                                              FlutterFlowTheme.of(context)
-                                                  .labelMedium
-                                                  .override(
-                                                    fontFamily: 'Sora',
-                                                    letterSpacing: 0.0,
-                                                  ),
-                                          enabledBorder: OutlineInputBorder(
-                                            borderSide: const BorderSide(
-                                              color: Color(0x00000000),
-                                              width: 1.0,
-                                            ),
-                                            borderRadius:
-                                                BorderRadius.circular(8.0),
-                                          ),
-                                          focusedBorder: OutlineInputBorder(
-                                            borderSide: const BorderSide(
-                                              color: Color(0x00000000),
-                                              width: 1.0,
-                                            ),
-                                            borderRadius:
-                                                BorderRadius.circular(8.0),
-                                          ),
-                                          errorBorder: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                              color:
-                                                  FlutterFlowTheme.of(context)
-                                                      .error,
-                                              width: 1.0,
-                                            ),
-                                            borderRadius:
-                                                BorderRadius.circular(8.0),
-                                          ),
-                                          focusedErrorBorder:
-                                              OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                              color:
-                                                  FlutterFlowTheme.of(context)
-                                                      .error,
-                                              width: 1.0,
-                                            ),
-                                            borderRadius:
-                                                BorderRadius.circular(8.0),
-                                          ),
-                                          filled: true,
-                                          fillColor:
-                                              FlutterFlowTheme.of(context)
-                                                  .tertiary,
-                                        ),
-                                        style: FlutterFlowTheme.of(context)
-                                            .bodyMedium
-                                            .override(
-                                              fontFamily: 'Sora',
-                                              letterSpacing: 0.0,
-                                            ),
-                                        keyboardType: TextInputType.number,
-                                        cursorColor:
-                                            FlutterFlowTheme.of(context)
-                                                .primaryText,
-                                        validator: _model
-                                            .agenciaTextControllerValidator
-                                            .asValidator(context),
-                                      ),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsetsDirectional.fromSTEB(
-                                        0.0, 0.0, 0.0, 8.0),
-                                    child: Text(
-                                      'Seu Conta:',
-                                      style: FlutterFlowTheme.of(context)
-                                          .labelMedium
-                                          .override(
-                                            fontFamily: 'Sora',
-                                            color: FlutterFlowTheme.of(context)
-                                                .primaryText,
-                                            letterSpacing: 0.0,
-                                          ),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsetsDirectional.fromSTEB(
-                                        0.0, 0.0, 0.0, 24.0),
-                                    child: SizedBox(
-                                      width: double.infinity,
-                                      child: TextFormField(
-                                        controller:
-                                            _model.contaTextController ??=
-                                                TextEditingController(
-                                          text: valueOrDefault<String>(
-                                            columnUsuariosRow?.conta,
-                                            '-',
-                                          ),
-                                        ),
-                                        focusNode: _model.contaFocusNode,
-                                        autofocus: false,
-                                        obscureText: false,
-                                        decoration: InputDecoration(
-                                          isDense: true,
-                                          labelStyle:
-                                              FlutterFlowTheme.of(context)
-                                                  .labelMedium
-                                                  .override(
-                                                    fontFamily: 'Sora',
-                                                    letterSpacing: 0.0,
-                                                  ),
-                                          hintText: 'TextField',
+                                          hintText: 'Digite sua nova senha',
                                           hintStyle:
                                               FlutterFlowTheme.of(context)
                                                   .labelMedium
@@ -558,8 +439,12 @@ class _DadosBancoWidgetState extends State<DadosBancoWidget>
                                             FlutterFlowTheme.of(context)
                                                 .primaryText,
                                         validator: _model
-                                            .contaTextControllerValidator
+                                            .novaSenhaTextControllerValidator
                                             .asValidator(context),
+                                        inputFormatters: [
+                                          FilteringTextInputFormatter.allow(
+                                              RegExp('[0-9]'))
+                                        ],
                                       ),
                                     ),
                                   ),
@@ -567,7 +452,7 @@ class _DadosBancoWidgetState extends State<DadosBancoWidget>
                                     padding: const EdgeInsetsDirectional.fromSTEB(
                                         0.0, 0.0, 0.0, 8.0),
                                     child: Text(
-                                      'Tipo de chave PIX:',
+                                      'Confirmar senha:',
                                       style: FlutterFlowTheme.of(context)
                                           .labelMedium
                                           .override(
@@ -576,6 +461,97 @@ class _DadosBancoWidgetState extends State<DadosBancoWidget>
                                                 .primaryText,
                                             letterSpacing: 0.0,
                                           ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsetsDirectional.fromSTEB(
+                                        0.0, 0.0, 0.0, 24.0),
+                                    child: SizedBox(
+                                      width: double.infinity,
+                                      child: TextFormField(
+                                        controller:
+                                            _model.confirmarSenhaTextController,
+                                        focusNode:
+                                            _model.confirmarSenhaFocusNode,
+                                        autofocus: false,
+                                        obscureText: false,
+                                        decoration: InputDecoration(
+                                          isDense: true,
+                                          labelStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .labelMedium
+                                                  .override(
+                                                    fontFamily: 'Sora',
+                                                    letterSpacing: 0.0,
+                                                  ),
+                                          hintText: 'Confirme sua senha',
+                                          hintStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .labelMedium
+                                                  .override(
+                                                    fontFamily: 'Sora',
+                                                    letterSpacing: 0.0,
+                                                  ),
+                                          enabledBorder: OutlineInputBorder(
+                                            borderSide: const BorderSide(
+                                              color: Color(0x00000000),
+                                              width: 1.0,
+                                            ),
+                                            borderRadius:
+                                                BorderRadius.circular(8.0),
+                                          ),
+                                          focusedBorder: OutlineInputBorder(
+                                            borderSide: const BorderSide(
+                                              color: Color(0x00000000),
+                                              width: 1.0,
+                                            ),
+                                            borderRadius:
+                                                BorderRadius.circular(8.0),
+                                          ),
+                                          errorBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .error,
+                                              width: 1.0,
+                                            ),
+                                            borderRadius:
+                                                BorderRadius.circular(8.0),
+                                          ),
+                                          focusedErrorBorder:
+                                              OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .error,
+                                              width: 1.0,
+                                            ),
+                                            borderRadius:
+                                                BorderRadius.circular(8.0),
+                                          ),
+                                          filled: true,
+                                          fillColor:
+                                              FlutterFlowTheme.of(context)
+                                                  .tertiary,
+                                        ),
+                                        style: FlutterFlowTheme.of(context)
+                                            .bodyMedium
+                                            .override(
+                                              fontFamily: 'Sora',
+                                              letterSpacing: 0.0,
+                                            ),
+                                        keyboardType: TextInputType.number,
+                                        cursorColor:
+                                            FlutterFlowTheme.of(context)
+                                                .primaryText,
+                                        validator: _model
+                                            .confirmarSenhaTextControllerValidator
+                                            .asValidator(context),
+                                        inputFormatters: [
+                                          FilteringTextInputFormatter.allow(
+                                              RegExp('[0-9]'))
+                                        ],
+                                      ),
                                     ),
                                   ),
                                   FutureBuilder<List<TipoChavepixRow>>(
@@ -615,204 +591,8 @@ class _DadosBancoWidgetState extends State<DadosBancoWidget>
 
                                       return Container(
                                         decoration: const BoxDecoration(),
-                                        child: Padding(
-                                          padding:
-                                              const EdgeInsetsDirectional.fromSTEB(
-                                                  0.0, 0.0, 0.0, 24.0),
-                                          child: FutureBuilder<
-                                              List<TipoChavepixRow>>(
-                                            future:
-                                                TipoChavepixTable().queryRows(
-                                              queryFn: (q) => q,
-                                            ),
-                                            builder: (context, snapshot) {
-                                              // Customize what your widget looks like when it's loading.
-                                              if (!snapshot.hasData) {
-                                                return Center(
-                                                  child: SizedBox(
-                                                    width: 50.0,
-                                                    height: 50.0,
-                                                    child:
-                                                        CircularProgressIndicator(
-                                                      valueColor:
-                                                          AlwaysStoppedAnimation<
-                                                              Color>(
-                                                        FlutterFlowTheme.of(
-                                                                context)
-                                                            .primary,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                );
-                                              }
-                                              List<TipoChavepixRow>
-                                                  ddTipoChaveTipoChavepixRowList =
-                                                  snapshot.data!;
-
-                                              return FlutterFlowDropDown<
-                                                  String>(
-                                                controller: _model
-                                                        .ddTipoChaveValueController ??=
-                                                    FormFieldController<String>(
-                                                  _model.ddTipoChaveValue ??=
-                                                      containerTipoChavepixRow
-                                                          ?.nome,
-                                                ),
-                                                options:
-                                                    ddTipoChaveTipoChavepixRowList
-                                                        .map((e) => e.nome)
-                                                        .withoutNulls
-                                                        .toList(),
-                                                onChanged: (val) =>
-                                                    safeSetState(() => _model
-                                                            .ddTipoChaveValue =
-                                                        val),
-                                                width: double.infinity,
-                                                height: 40.0,
-                                                textStyle:
-                                                    FlutterFlowTheme.of(context)
-                                                        .bodyMedium
-                                                        .override(
-                                                          fontFamily: 'Sora',
-                                                          letterSpacing: 0.0,
-                                                        ),
-                                                hintText:
-                                                    'Selecione o tipo de chave',
-                                                icon: Icon(
-                                                  Icons
-                                                      .keyboard_arrow_down_rounded,
-                                                  color: FlutterFlowTheme.of(
-                                                          context)
-                                                      .secondaryText,
-                                                  size: 24.0,
-                                                ),
-                                                fillColor:
-                                                    FlutterFlowTheme.of(context)
-                                                        .tertiary,
-                                                elevation: 2.0,
-                                                borderColor: Colors.transparent,
-                                                borderWidth: 0.0,
-                                                borderRadius: 8.0,
-                                                margin: const EdgeInsetsDirectional
-                                                    .fromSTEB(
-                                                        12.0, 0.0, 12.0, 0.0),
-                                                hidesUnderline: true,
-                                                isOverButton: false,
-                                                isSearchable: false,
-                                                isMultiSelect: false,
-                                              );
-                                            },
-                                          ),
-                                        ),
                                       );
                                     },
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsetsDirectional.fromSTEB(
-                                        0.0, 0.0, 0.0, 8.0),
-                                    child: Text(
-                                      'Chave PIX:',
-                                      style: FlutterFlowTheme.of(context)
-                                          .labelMedium
-                                          .override(
-                                            fontFamily: 'Sora',
-                                            color: FlutterFlowTheme.of(context)
-                                                .primaryText,
-                                            letterSpacing: 0.0,
-                                          ),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsetsDirectional.fromSTEB(
-                                        0.0, 0.0, 0.0, 24.0),
-                                    child: SizedBox(
-                                      width: double.infinity,
-                                      child: TextFormField(
-                                        controller:
-                                            _model.chavePIXTextController ??=
-                                                TextEditingController(
-                                          text: valueOrDefault<String>(
-                                            columnUsuariosRow?.chavePix,
-                                            '-',
-                                          ),
-                                        ),
-                                        focusNode: _model.chavePIXFocusNode,
-                                        autofocus: false,
-                                        obscureText: false,
-                                        decoration: InputDecoration(
-                                          isDense: true,
-                                          labelStyle:
-                                              FlutterFlowTheme.of(context)
-                                                  .labelMedium
-                                                  .override(
-                                                    fontFamily: 'Sora',
-                                                    letterSpacing: 0.0,
-                                                  ),
-                                          hintText: 'TextField',
-                                          hintStyle:
-                                              FlutterFlowTheme.of(context)
-                                                  .labelMedium
-                                                  .override(
-                                                    fontFamily: 'Sora',
-                                                    letterSpacing: 0.0,
-                                                  ),
-                                          enabledBorder: OutlineInputBorder(
-                                            borderSide: const BorderSide(
-                                              color: Color(0x00000000),
-                                              width: 1.0,
-                                            ),
-                                            borderRadius:
-                                                BorderRadius.circular(8.0),
-                                          ),
-                                          focusedBorder: OutlineInputBorder(
-                                            borderSide: const BorderSide(
-                                              color: Color(0x00000000),
-                                              width: 1.0,
-                                            ),
-                                            borderRadius:
-                                                BorderRadius.circular(8.0),
-                                          ),
-                                          errorBorder: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                              color:
-                                                  FlutterFlowTheme.of(context)
-                                                      .error,
-                                              width: 1.0,
-                                            ),
-                                            borderRadius:
-                                                BorderRadius.circular(8.0),
-                                          ),
-                                          focusedErrorBorder:
-                                              OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                              color:
-                                                  FlutterFlowTheme.of(context)
-                                                      .error,
-                                              width: 1.0,
-                                            ),
-                                            borderRadius:
-                                                BorderRadius.circular(8.0),
-                                          ),
-                                          filled: true,
-                                          fillColor:
-                                              FlutterFlowTheme.of(context)
-                                                  .tertiary,
-                                        ),
-                                        style: FlutterFlowTheme.of(context)
-                                            .bodyMedium
-                                            .override(
-                                              fontFamily: 'Sora',
-                                              letterSpacing: 0.0,
-                                            ),
-                                        keyboardType: TextInputType.number,
-                                        cursorColor:
-                                            FlutterFlowTheme.of(context)
-                                                .primaryText,
-                                        validator: _model
-                                            .chavePIXTextControllerValidator
-                                            .asValidator(context),
-                                      ),
-                                    ),
                                   ),
                                   Row(
                                     mainAxisSize: MainAxisSize.max,
@@ -822,39 +602,8 @@ class _DadosBancoWidgetState extends State<DadosBancoWidget>
                                         padding: const EdgeInsetsDirectional.fromSTEB(
                                             0.0, 0.0, 4.0, 0.0),
                                         child: FFButtonWidget(
-                                          onPressed: () async {
-                                            _model.chavePixSelect =
-                                                await TipoChavepixTable()
-                                                    .queryRows(
-                                              queryFn: (q) => q.eq(
-                                                'nome',
-                                                _model.ddTipoChaveValue,
-                                              ),
-                                            );
-                                            await UsuariosTable().update(
-                                              data: {
-                                                'banco': _model
-                                                    .bancoTextController.text,
-                                                'agencia': _model
-                                                    .agenciaTextController.text,
-                                                'conta': _model
-                                                    .contaTextController.text,
-                                                'tipo_de_chave_pix': _model
-                                                    .chavePixSelect?.first.id,
-                                                'chave_pix': _model
-                                                    .chavePIXTextController
-                                                    .text,
-                                              },
-                                              matchingRows: (rows) => rows.eq(
-                                                'uuid_auth_user',
-                                                currentUserUid,
-                                              ),
-                                            );
-                                            Navigator.pop(context);
-
-                                            context.pushNamed('Carteira');
-
-                                            safeSetState(() {});
+                                          onPressed: () {
+                                            print('Button pressed ...');
                                           },
                                           text: 'Salvar alteração',
                                           options: FFButtonOptions(

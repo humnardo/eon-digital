@@ -1,10 +1,10 @@
 import '/auth/supabase_auth/auth_util.dart';
 import '/backend/api_requests/api_calls.dart';
 import '/backend/supabase/supabase.dart';
-import '/flutter_flow/flutter_flow_charts.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import '/custom_code/widgets/index.dart' as custom_widgets;
 import '/flutter_flow/custom_functions.dart' as functions;
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -32,6 +32,15 @@ class _DashboardWidgetState extends State<DashboardWidget> {
 
     // On page load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
+      await UsuariosTable().update(
+        data: {
+          'fcm_token': FFAppState().fcmToken,
+        },
+        matchingRows: (rows) => rows.eq(
+          'uuid_auth_user',
+          currentUserUid,
+        ),
+      );
       FFAppState().idUsuario = currentUserUid;
       safeSetState(() {});
       _model.idUserPublic = await UsuariosTable().queryRows(
@@ -56,13 +65,11 @@ class _DashboardWidgetState extends State<DashboardWidget> {
         ),
         0.0,
       );
-      _model.dataIni = functions.voltaDIas(7);
+      _model.dataIni = functions.voltarDia0(7);
       safeSetState(() {});
-      _model.apiResultlca = await CalcularcomissoespordataCall.call(
-        pDataInicio: _model.dataIni?.toString(),
-        pIdUsuario: FFAppState().idUsuariosTable,
-      );
     });
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override
@@ -285,7 +292,6 @@ class _DashboardWidgetState extends State<DashboardWidget> {
                                     child: FFButtonWidget(
                                       onPressed: () async {
                                         _model.navegacao = 1;
-                                        safeSetState(() {});
                                         _model.dataIni = functions.voltaDIas(7);
                                         safeSetState(() {});
                                       },
@@ -327,7 +333,6 @@ class _DashboardWidgetState extends State<DashboardWidget> {
                                   child: FFButtonWidget(
                                     onPressed: () async {
                                       _model.navegacao = 2;
-                                      safeSetState(() {});
                                       _model.dataIni = functions.voltaDIas(30);
                                       safeSetState(() {});
                                     },
@@ -368,7 +373,6 @@ class _DashboardWidgetState extends State<DashboardWidget> {
                                     child: FFButtonWidget(
                                       onPressed: () async {
                                         _model.navegacao = 3;
-                                        safeSetState(() {});
                                         _model.dataIni =
                                             functions.voltaDIas(90);
                                         safeSetState(() {});
@@ -417,14 +421,14 @@ class _DashboardWidgetState extends State<DashboardWidget> {
                                 queryFn: (q) => q
                                     .eq(
                                   'vendedor',
-                                  FFAppState().idUsuariosTable,
+                                  FFAppState().idUsuariosTable ?? 0,
                                 )
                                     .in_(
                                   'status_pedido',
                                   [3, 4, 7],
                                 ).gte(
                                   'data_entrega',
-                                  supaSerialize<DateTime>(_model.dataIni),
+                                  supaSerialize<DateTime>(_model.dataIni ?? functions.voltarDia0(7)),
                                 ),
                               ),
                               builder: (context, snapshot) {
@@ -448,10 +452,16 @@ class _DashboardWidgetState extends State<DashboardWidget> {
 
                                 return Container(
                                   width: MediaQuery.sizeOf(context).width * 1.0,
-                                  height: 300.0,
                                   decoration: BoxDecoration(
-                                    color:
-                                        FlutterFlowTheme.of(context).tertiary,
+                                    gradient: LinearGradient(
+                                      colors: [
+                                        FlutterFlowTheme.of(context).primary,
+                                        const Color(0xFFFB9900)
+                                      ],
+                                      stops: const [0.0, 1.0],
+                                      begin: const AlignmentDirectional(-1.0, 0.0),
+                                      end: const AlignmentDirectional(1.0, 0),
+                                    ),
                                     borderRadius: BorderRadius.circular(16.0),
                                   ),
                                   child: FutureBuilder<List<PedidosRow>>(
@@ -470,7 +480,8 @@ class _DashboardWidgetState extends State<DashboardWidget> {
                                         [3, 4, 7],
                                       ).gte(
                                         'data_entrega',
-                                        supaSerialize<DateTime>(_model.dataIni),
+                                        supaSerialize<DateTime>(
+                                            _model.dataIni ?? functions.voltarDia0(7)),
                                       ),
                                     ),
                                     builder: (context, snapshot) {
@@ -495,11 +506,13 @@ class _DashboardWidgetState extends State<DashboardWidget> {
                                           snapshot.data!;
 
                                       return Container(
-                                        decoration: const BoxDecoration(),
+                                        decoration: const BoxDecoration(
+                                          color: Colors.transparent,
+                                        ),
                                         child: Padding(
                                           padding:
                                               const EdgeInsetsDirectional.fromSTEB(
-                                                  16.0, 16.0, 16.0, 16.0),
+                                                  18.0, 24.0, 18.0, 24.0),
                                           child: Column(
                                             mainAxisSize: MainAxisSize.max,
                                             mainAxisAlignment:
@@ -519,16 +532,21 @@ class _DashboardWidgetState extends State<DashboardWidget> {
                                                                   0.0),
                                                       child: Text(
                                                         'Ganhos',
-                                                        style: FlutterFlowTheme
-                                                                .of(context)
-                                                            .bodyMedium
-                                                            .override(
-                                                              fontFamily:
-                                                                  'Sora',
-                                                              fontSize: 12.0,
-                                                              letterSpacing:
-                                                                  0.0,
-                                                            ),
+                                                        style:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyMedium
+                                                                .override(
+                                                                  fontFamily:
+                                                                      'Sora',
+                                                                  color: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .secondary,
+                                                                  fontSize:
+                                                                      12.0,
+                                                                  letterSpacing:
+                                                                      0.0,
+                                                                ),
                                                       ),
                                                     ),
                                                   ),
@@ -541,7 +559,7 @@ class _DashboardWidgetState extends State<DashboardWidget> {
                                                           fontFamily: 'Sora',
                                                           color: FlutterFlowTheme
                                                                   .of(context)
-                                                              .primary,
+                                                              .secondary,
                                                           letterSpacing: 0.0,
                                                         ),
                                                   ),
@@ -571,7 +589,7 @@ class _DashboardWidgetState extends State<DashboardWidget> {
                                                           fontFamily: 'Sora',
                                                           color: FlutterFlowTheme
                                                                   .of(context)
-                                                              .primary,
+                                                              .secondary,
                                                           fontSize: 20.0,
                                                           letterSpacing: 0.0,
                                                           fontWeight:
@@ -579,165 +597,6 @@ class _DashboardWidgetState extends State<DashboardWidget> {
                                                         ),
                                                   ),
                                                 ],
-                                              ),
-                                              FutureBuilder<ApiCallResponse>(
-                                                future:
-                                                    CalcularcomissoespordataCall
-                                                        .call(
-                                                  pDataInicio: _model.dataIni
-                                                      ?.toString(),
-                                                  pIdUsuario: FFAppState()
-                                                      .idUsuariosTable,
-                                                ),
-                                                builder: (context, snapshot) {
-                                                  // Customize what your widget looks like when it's loading.
-                                                  if (!snapshot.hasData) {
-                                                    return Center(
-                                                      child: SizedBox(
-                                                        width: 50.0,
-                                                        height: 50.0,
-                                                        child:
-                                                            CircularProgressIndicator(
-                                                          valueColor:
-                                                              AlwaysStoppedAnimation<
-                                                                  Color>(
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .primary,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    );
-                                                  }
-                                                  final chartCalcularcomissoespordataResponse =
-                                                      snapshot.data!;
-
-                                                  return SizedBox(
-                                                    width: 370.0,
-                                                    height: 214.0,
-                                                    child: FlutterFlowLineChart(
-                                                      data: [
-                                                        FFLineChartData(
-                                                          xData:
-                                                              CalcularcomissoespordataCall
-                                                                  .datas(
-                                                            chartCalcularcomissoespordataResponse
-                                                                .jsonBody,
-                                                          )!,
-                                                          yData:
-                                                              CalcularcomissoespordataCall
-                                                                  .comissoes(
-                                                            chartCalcularcomissoespordataResponse
-                                                                .jsonBody,
-                                                          )!,
-                                                          settings:
-                                                              LineChartBarData(
-                                                            color: FlutterFlowTheme
-                                                                    .of(context)
-                                                                .primary,
-                                                            barWidth: 2.0,
-                                                            belowBarData:
-                                                                BarAreaData(
-                                                              show: true,
-                                                              color: const Color(
-                                                                  0x23FF4C00),
-                                                            ),
-                                                          ),
-                                                        )
-                                                      ],
-                                                      chartStylingInfo:
-                                                          ChartStylingInfo(
-                                                        enableTooltip: true,
-                                                        tooltipBackgroundColor:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .secondary,
-                                                        backgroundColor:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .tertiary,
-                                                        showBorder: false,
-                                                      ),
-                                                      axisBounds: const AxisBounds(),
-                                                      xAxisLabelInfo:
-                                                          const AxisLabelInfo(
-                                                        reservedSize: 32.0,
-                                                      ),
-                                                      yAxisLabelInfo:
-                                                          const AxisLabelInfo(
-                                                        reservedSize: 40.0,
-                                                      ),
-                                                    ),
-                                                  );
-                                                },
-                                              ),
-                                              FutureBuilder<ApiCallResponse>(
-                                                future:
-                                                    CalcularcomissoespordataCall
-                                                        .call(
-                                                  pDataInicio: _model.dataIni
-                                                      ?.toString(),
-                                                  pIdUsuario: FFAppState()
-                                                      .idUsuariosTable,
-                                                ),
-                                                builder: (context, snapshot) {
-                                                  // Customize what your widget looks like when it's loading.
-                                                  if (!snapshot.hasData) {
-                                                    return Center(
-                                                      child: SizedBox(
-                                                        width: 50.0,
-                                                        height: 50.0,
-                                                        child:
-                                                            CircularProgressIndicator(
-                                                          valueColor:
-                                                              AlwaysStoppedAnimation<
-                                                                  Color>(
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .primary,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    );
-                                                  }
-                                                  final rowCalcularcomissoespordataResponse =
-                                                      snapshot.data!;
-
-                                                  return Builder(
-                                                    builder: (context) {
-                                                      final list =
-                                                          CalcularcomissoespordataCall
-                                                                  .datas(
-                                                                rowCalcularcomissoespordataResponse
-                                                                    .jsonBody,
-                                                              )?.toList() ??
-                                                              [];
-
-                                                      return Row(
-                                                        mainAxisSize:
-                                                            MainAxisSize.max,
-                                                        children: List.generate(
-                                                            list.length,
-                                                            (listIndex) {
-                                                          final listItem =
-                                                              list[listIndex];
-                                                          return Text(
-                                                            'Hello World',
-                                                            style: FlutterFlowTheme
-                                                                    .of(context)
-                                                                .bodyMedium
-                                                                .override(
-                                                                  fontFamily:
-                                                                      'Sora',
-                                                                  letterSpacing:
-                                                                      0.0,
-                                                                ),
-                                                          );
-                                                        }),
-                                                      );
-                                                    },
-                                                  );
-                                                },
                                               ),
                                             ],
                                           ),
@@ -754,7 +613,7 @@ class _DashboardWidgetState extends State<DashboardWidget> {
                               queryFn: (q) => q
                                   .eq(
                                     'vendedor',
-                                    FFAppState().idUsuariosTable,
+                                    FFAppState().idUsuariosTable ?? 0,
                                   )
                                   .eq(
                                     'status_pedido',
@@ -762,7 +621,8 @@ class _DashboardWidgetState extends State<DashboardWidget> {
                                   )
                                   .gte(
                                     'data_entrega',
-                                    supaSerialize<DateTime>(_model.dataIni),
+                                    supaSerialize<DateTime>(
+                                        _model.dataIni ?? functions.voltarDia0(7)),
                                   ),
                             ),
                             builder: (context, snapshot) {
@@ -803,7 +663,7 @@ class _DashboardWidgetState extends State<DashboardWidget> {
                                         .gte(
                                           'data_entrega',
                                           supaSerialize<DateTime>(
-                                              _model.dataIni),
+                                              _model.dataIni ?? functions.voltarDia0(7)),
                                         ),
                                   ),
                                   builder: (context, snapshot) {
@@ -1247,6 +1107,66 @@ class _DashboardWidgetState extends State<DashboardWidget> {
                                               ),
                                             ],
                                           ),
+                                          Column(
+                                            mainAxisSize: MainAxisSize.max,
+                                            children: [
+                                              Padding(
+                                                padding: const EdgeInsetsDirectional
+                                                    .fromSTEB(
+                                                        0.0, 16.0, 0.0, 0.0),
+                                                child: Container(
+                                                  decoration: BoxDecoration(
+                                                    color: FlutterFlowTheme.of(
+                                                            context)
+                                                        .tertiary,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            16.0),
+                                                  ),
+                                                  child: Padding(
+                                                    padding:
+                                                        const EdgeInsetsDirectional
+                                                            .fromSTEB(0.0, 20.0,
+                                                                0.0, 20.0),
+                                                    child: Column(
+                                                      mainAxisSize:
+                                                          MainAxisSize.min,
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        SizedBox(
+                                                          width:
+                                                              MediaQuery.sizeOf(
+                                                                          context)
+                                                                      .width *
+                                                                  1.0,
+                                                          height: 300.0,
+                                                          child: custom_widgets
+                                                              .LineChart(
+                                                            width: MediaQuery
+                                                                        .sizeOf(
+                                                                            context)
+                                                                    .width *
+                                                                1.0,
+                                                            height: 300.0,
+                                                            idUser: FFAppState()
+                                                                .idUsuariosTable
+                                                                .toString(),
+                                                            startDate:
+                                                                _model.dataIni!,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
                                         ],
                                       ),
                                     );
@@ -1257,14 +1177,15 @@ class _DashboardWidgetState extends State<DashboardWidget> {
                           ),
                           Padding(
                             padding: const EdgeInsetsDirectional.fromSTEB(
-                                0.0, 24.0, 0.0, 100.0),
+                                0.0, 20.0, 0.0, 40.0),
                             child: Text(
-                              'eon\n',
+                              'Eon',
                               style: FlutterFlowTheme.of(context)
                                   .bodyMedium
                                   .override(
                                     fontFamily: 'Sora',
-                                    color: const Color(0x808B8B8B),
+                                    color: FlutterFlowTheme.of(context)
+                                        .secondaryText,
                                     letterSpacing: 0.0,
                                   ),
                             ),

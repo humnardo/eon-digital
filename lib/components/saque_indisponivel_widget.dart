@@ -69,6 +69,8 @@ class _SaqueIndisponivelWidgetState extends State<SaqueIndisponivelWidget>
           !anim.applyInitialState),
       this,
     );
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override

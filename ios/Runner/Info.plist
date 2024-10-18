@@ -43,7 +43,8 @@
 	<true/>
 
 
-
+	<key>PermissionGroupNotification</key>
+    <string>Ncessario para as notificações</string>
 
 
 	<key>UILaunchStoryboardName</key>

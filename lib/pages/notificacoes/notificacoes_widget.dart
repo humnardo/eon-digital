@@ -24,6 +24,7 @@ class _NotificacoesWidgetState extends State<NotificacoesWidget> {
 
     _model.switchValue1 = true;
     _model.switchValue2 = true;
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override
@@ -137,8 +138,7 @@ class _NotificacoesWidgetState extends State<NotificacoesWidget> {
                             safeSetState(() => _model.switchValue1 = newValue);
                           },
                           activeColor: FlutterFlowTheme.of(context).primary,
-                          activeTrackColor:
-                              FlutterFlowTheme.of(context).accent1,
+                          activeTrackColor: const Color(0x3FFF4C00),
                           inactiveTrackColor:
                               FlutterFlowTheme.of(context).alternate,
                           inactiveThumbColor:
@@ -189,8 +189,7 @@ class _NotificacoesWidgetState extends State<NotificacoesWidget> {
                             safeSetState(() => _model.switchValue2 = newValue);
                           },
                           activeColor: FlutterFlowTheme.of(context).primary,
-                          activeTrackColor:
-                              FlutterFlowTheme.of(context).accent1,
+                          activeTrackColor: const Color(0x3FFF4C00),
                           inactiveTrackColor:
                               FlutterFlowTheme.of(context).alternate,
                           inactiveThumbColor:

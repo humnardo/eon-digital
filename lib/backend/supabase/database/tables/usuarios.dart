@@ -86,4 +86,7 @@ class UsuariosRow extends SupabaseDataRow {
   bool? get motoboyTrabalhando => getField<bool>('motoboy_trabalhando');
   set motoboyTrabalhando(bool? value) =>
       setField<bool>('motoboy_trabalhando', value);
+
+  String? get fcmToken => getField<String>('fcm_token');
+  set fcmToken(String? value) => setField<String>('fcm_token', value);
 }

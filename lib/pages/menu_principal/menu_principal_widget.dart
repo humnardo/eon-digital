@@ -26,6 +26,8 @@ class _MenuPrincipalWidgetState extends State<MenuPrincipalWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => MenuPrincipalModel());
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override
@@ -60,7 +62,7 @@ class _MenuPrincipalWidgetState extends State<MenuPrincipalWidget> {
                   children: [
                     Padding(
                       padding:
-                          const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 24.0),
+                          const EdgeInsetsDirectional.fromSTEB(0.0, 24.0, 0.0, 24.0),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(8.0),
                         child: Image.asset(
@@ -215,7 +217,7 @@ class _MenuPrincipalWidgetState extends State<MenuPrincipalWidget> {
                               hoverColor: Colors.transparent,
                               highlightColor: Colors.transparent,
                               onTap: () async {
-                                context.safePop();
+                                await launchURL('https://eondigital.com.br/');
                               },
                               child: Container(
                                 width: MediaQuery.sizeOf(context).width * 1.0,
@@ -392,7 +394,10 @@ class _MenuPrincipalWidgetState extends State<MenuPrincipalWidget> {
                                               const EdgeInsetsDirectional.fromSTEB(
                                                   0.0, 0.0, 4.0, 0.0),
                                           child: Text(
-                                            'Light mode',
+                                            Theme.of(context).brightness ==
+                                                    Brightness.dark
+                                                ? 'Light mode'
+                                                : 'Dark mode',
                                             textAlign: TextAlign.start,
                                             style: FlutterFlowTheme.of(context)
                                                 .bodyMedium

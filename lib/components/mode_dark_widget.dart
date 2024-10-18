@@ -74,6 +74,8 @@ class _ModeDarkWidgetState extends State<ModeDarkWidget>
         ],
       ),
     });
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override

@@ -77,6 +77,8 @@ class _DadosUserWidgetState extends State<DadosUserWidget>
           !anim.applyInitialState),
       this,
     );
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override

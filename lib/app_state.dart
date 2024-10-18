@@ -199,6 +199,12 @@ class FFAppState extends ChangeNotifier {
   void insertAtIndexInDataGrafico(int index, String value) {
     dataGrafico.insert(index, value);
   }
+
+  String _fcmToken = '';
+  String get fcmToken => _fcmToken;
+  set fcmToken(String value) {
+    _fcmToken = value;
+  }
 }
 
 void _safeInit(Function() initializeField) {
