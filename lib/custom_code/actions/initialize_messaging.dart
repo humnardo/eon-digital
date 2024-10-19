@@ -17,7 +17,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
 
 Future initializeMessaging() async {
-  // Add your function code here!
+  // Inicializa o Firebase
   await Firebase.initializeApp(
     options: FirebaseOptions(
         apiKey: "AIzaSyBV7QNg4BaZyhmuITDgJDS5AJSC2JqfLHc",
@@ -27,6 +27,14 @@ Future initializeMessaging() async {
         messagingSenderId: "37552179600",
         appId: "1:37552179600:web:bd42d16aec8df0268d8b15"),
   );
+
+  // Solicita permissão de notificações ao usuário
+  bool isAllowed = await AwesomeNotifications().isNotificationAllowed();
+  if (!isAllowed) {
+    // Solicita permissão caso ainda não tenha sido dada
+    await AwesomeNotifications().requestPermissionToSendNotifications();
+  }
+
   FirebaseMessaging.instance.requestPermission().then((settings) {
     if (settings.authorizationStatus == AuthorizationStatus.authorized) {
       FirebaseMessaging.instance.getToken().then((token) {
@@ -37,15 +45,16 @@ Future initializeMessaging() async {
     }
   });
 
-  // Initialize our local notifications
+  // Inicializa notificações locais com canal de alerta e som personalizado
   await AwesomeNotifications().initialize(
-    null,
+    null, // O app usa o ícone padrão
     [
       NotificationChannel(
         channelKey: 'alerts',
         channelName: 'Alerts',
         channelDescription: 'Notification tests as alerts',
         playSound: true,
+        //soundSource: 'resource://raw/caixa_som.wav', // Usando o som customizado
         onlyAlertOnce: true,
         groupAlertBehavior: GroupAlertBehavior.Children,
         importance: NotificationImportance.High,
@@ -57,6 +66,7 @@ Future initializeMessaging() async {
     debug: true,
   );
 
+  // Escuta mensagens enquanto o app está rodando e cria notificações locais
   FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
     print("received message 1: ${message.notification?.title}");
 
@@ -66,7 +76,8 @@ Future initializeMessaging() async {
             channelKey: 'alerts',
             title: message.notification?.title ?? "No title",
             body: message.notification?.body ?? "No body",
-            payload: {'notificationId': '1234567890'}),
+            payload: {'notificationId': '1234567890'},
+            notificationLayout: NotificationLayout.Default),
         actionButtons: [
           NotificationActionButton(
             key: "DISMISS",

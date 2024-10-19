@@ -19,6 +19,10 @@ void main() async {
   GoRouter.optionURLReflectsImperativeAPIs = true;
   usePathUrlStrategy();
 
+  // Start initial custom actions code
+  await actions.oneSignal();
+  // End initial custom actions code
+
   await SupaFlow.initialize();
 
   await FlutterFlowTheme.initialize();
@@ -67,7 +71,7 @@ class _MyAppState extends State<MyApp> {
       });
     jwtTokenStream.listen((_) {});
     Future.delayed(
-      const Duration(milliseconds: 1000),
+      const Duration(milliseconds: 2),
       () => _appStateNotifier.stopShowingSplashImage(),
     );
   }
