@@ -31,7 +31,7 @@ void main() async {
   await appState.initializePersistedState();
 
   // Start final custom actions code
-  await actions.initializeMessaging();
+  await actions.onesignalInitialise();
   // End final custom actions code
 
   runApp(ChangeNotifierProvider(
