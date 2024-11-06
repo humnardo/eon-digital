@@ -3,6 +3,7 @@ import '/components/info_saque_widget.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/custom_functions.dart' as functions;
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
@@ -68,12 +69,12 @@ class _HistoricoSaquesWidgetState extends State<HistoricoSaquesWidget> {
         ),
         body: SafeArea(
           top: true,
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                Padding(
-                  padding: const EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              Padding(
+                padding: const EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
+                child: SingleChildScrollView(
                   child: Column(
                     mainAxisSize: MainAxisSize.max,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -94,10 +95,10 @@ class _HistoricoSaquesWidgetState extends State<HistoricoSaquesWidget> {
                         ),
                       ),
                       Padding(
-                        padding:
-                            const EdgeInsetsDirectional.fromSTEB(0.0, 16.0, 0.0, 0.0),
+                        padding: const EdgeInsetsDirectional.fromSTEB(
+                            0.0, 16.0, 0.0, 16.0),
                         child: Text(
-                          'Aqui você pode visualizar todos os saques que já realizou na nossa plataforma!',
+                          'Aqui você pode visualizar todos os saques que já realizou na nossa plataforma nos últimos 30 dias.',
                           style:
                               FlutterFlowTheme.of(context).labelMedium.override(
                                     fontFamily: 'Sora',
@@ -114,6 +115,11 @@ class _HistoricoSaquesWidgetState extends State<HistoricoSaquesWidget> {
                                   .eq(
                                     'id_usuario',
                                     FFAppState().idUsuariosTable,
+                                  )
+                                  .gte(
+                                    'create_date',
+                                    supaSerialize<DateTime>(
+                                        functions.voltaDIas(30)),
                                   )
                                   .order('id'),
                             ),
@@ -341,8 +347,8 @@ class _HistoricoSaquesWidgetState extends State<HistoricoSaquesWidget> {
                     ],
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
