@@ -57,6 +57,7 @@ class ProdutoRow extends SupabaseDataRow {
   double? get ranking => getField<double>('ranking');
   set ranking(double? value) => setField<double>('ranking', value);
 
-  String? get uuidBubble => getField<String>('uuid_bubble');
-  set uuidBubble(String? value) => setField<String>('uuid_bubble', value);
+  String? get uniqueIdBubble => getField<String>('unique_id_bubble');
+  set uniqueIdBubble(String? value) =>
+      setField<String>('unique_id_bubble', value);
 }

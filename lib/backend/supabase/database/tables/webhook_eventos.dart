@@ -110,4 +110,15 @@ class WebhookEventosRow extends SupabaseDataRow {
       getField<String>('client_address_district');
   set clientAddressDistrict(String? value) =>
       setField<String>('client_address_district', value);
+
+  String? get processingStatus => getField<String>('processing_status');
+  set processingStatus(String? value) =>
+      setField<String>('processing_status', value);
+
+  int? get attempts => getField<int>('attempts');
+  set attempts(int? value) => setField<int>('attempts', value);
+
+  DateTime? get lastAttemptAt => getField<DateTime>('last_attempt_at');
+  set lastAttemptAt(DateTime? value) =>
+      setField<DateTime>('last_attempt_at', value);
 }
