@@ -87,6 +87,24 @@ class UsuariosRow extends SupabaseDataRow {
   set motoboyTrabalhando(bool? value) =>
       setField<bool>('motoboy_trabalhando', value);
 
+  int? get indicou => getField<int>('indicou');
+  set indicou(int? value) => setField<int>('indicou', value);
+
+  double? get comissaoIndicacao => getField<double>('comissao_indicacao');
+  set comissaoIndicacao(double? value) =>
+      setField<double>('comissao_indicacao', value);
+
+  DateTime? get ultimoPagamento => getField<DateTime>('ultimo_pagamento');
+  set ultimoPagamento(DateTime? value) =>
+      setField<DateTime>('ultimo_pagamento', value);
+
+  DateTime? get validadePlano => getField<DateTime>('validade_plano');
+  set validadePlano(DateTime? value) =>
+      setField<DateTime>('validade_plano', value);
+
+  DateTime? get createdAt => getField<DateTime>('created_at');
+  set createdAt(DateTime? value) => setField<DateTime>('created_at', value);
+
   String? get fcmToken => getField<String>('fcm_token');
   set fcmToken(String? value) => setField<String>('fcm_token', value);
 }
